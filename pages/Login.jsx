@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import axios from 'axios';
+import api from '../services/api';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -25,7 +25,7 @@ export default function Login() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
 
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await api.post('/auth/login', {
         email: email.trim(),
         password: password.trim()
       });

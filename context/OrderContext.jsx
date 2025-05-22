@@ -1,26 +1,8 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import axios from 'axios';
 import { useApp } from './AppContext';
+import api from '../services/api';
 
 const OrderContext = createContext();
-
-// Configuração do axios
-axios.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    if (error.response?.status === 401) {
-      // Limpar dados de autenticação
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      
-      // Redirecionar para login se não estiver na página de login
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
-      }
-    }
-    return Promise.reject(error);
-  }
-);
 
 const initialState = {
   orders: [],
@@ -76,26 +58,10 @@ export const OrderProvider = ({ children }) => {
   const fetchOrders = async () => {
     try {
       dispatch({ type: 'FETCH_ORDERS_START' });
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        throw new Error('Token não encontrado');
-      }
-
-      const response = await axios.get('http://localhost:5000/api/orders', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
+      const response = await api.get('/orders');
       dispatch({ type: 'FETCH_ORDERS_SUCCESS', payload: response.data });
     } catch (error) {
       console.error('Erro ao buscar pedidos:', error);
-      if (error.response?.status === 401) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        throw new Error('Token inválido ou expirado');
-      }
       dispatch({ 
         type: 'FETCH_ORDERS_ERROR', 
         payload: error.response?.data?.message || 'Erro ao carregar pedidos' 
@@ -105,50 +71,19 @@ export const OrderProvider = ({ children }) => {
 
   const addOrder = async (orderData) => {
     try {
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        throw new Error('Token não encontrado');
-      }
-
-      const response = await axios.post('http://localhost:5000/api/orders', orderData, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
+      const response = await api.post('/orders', orderData);
       dispatch({ type: 'ADD_ORDER', payload: response.data.order });
       await fetchOrders();
       return response.data;
     } catch (error) {
       console.error('Erro ao criar pedido:', error);
-      if (error.response?.status === 401) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        throw new Error('Token inválido ou expirado');
-      }
       throw new Error(error.response?.data?.message || 'Erro ao criar pedido');
     }
   };
 
   const updateOrderStatus = async (orderId, status) => {
     try {
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        throw new Error('Token não encontrado');
-      }
-
-      const response = await axios.patch(
-        `http://localhost:5000/api/orders/${orderId}/status`,
-        { status },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-
+      const response = await api.patch(`/orders/${orderId}/status`, { status });
       dispatch({ 
         type: 'UPDATE_ORDER_STATUS', 
         payload: { id: orderId, status } 
@@ -156,11 +91,6 @@ export const OrderProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error('Erro ao atualizar status do pedido:', error);
-      if (error.response?.status === 401) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        throw new Error('Token inválido ou expirado');
-      }
       throw new Error(error.response?.data?.message || 'Erro ao atualizar status do pedido');
     }
   };
