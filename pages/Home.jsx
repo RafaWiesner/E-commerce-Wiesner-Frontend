@@ -5,7 +5,7 @@ import Footer from "../components/Footer.jsx";
 import AboutUs from "../components/AboutUs.jsx";
 import Header from '../components/Header.jsx';
 import { products } from '../data/products.js';
-import bannerPrincipal from '../assets/bannerprincipal.jpeg';
+import bannerPrincipal from '/assets/bannerprincipal.jpeg';
 
 const Home = () => {
   const { state, dispatch } = useApp();
