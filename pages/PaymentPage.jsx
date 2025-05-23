@@ -130,7 +130,7 @@ export default function PaymentPage() {
           name: item.name,
           quantity: item.quantity,
           price: parseFloat(item.price),
-          image: getImageUrl(item.image)
+          ProductImage: getImageUrl(item.image)
         })),
         shippingAddress: {
           address: formData.address,
