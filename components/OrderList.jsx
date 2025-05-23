@@ -28,7 +28,9 @@ export default function OrderList({ orders, expandedOrder, setExpandedOrder, get
             <div className="p-4 bg-gray-50 border-t">
               <h3 className="font-medium mb-2">Itens do Pedido</h3>
               <div className="space-y-2">
-                {order.items && order.items.length > 0 ? order.items.map((item) => (
+                {order.items && order.items.length > 0 ? order.items.map((item) => {
+                  console.log('productImage:', item.productImage);
+                  return (
                   <div key={item.id} className="flex justify-between items-center">
                     <div className="flex items-center space-x-2">
                       <img src={item.productImage} alt={item.productName} className="w-12 h-12 object-cover rounded" />
@@ -39,7 +41,7 @@ export default function OrderList({ orders, expandedOrder, setExpandedOrder, get
                     </div>
                     <p className="font-medium">R$ {(item.price * item.quantity).toFixed(2)}</p>
                   </div>
-                )) : <p className="text-gray-600">Nenhum item encontrado.</p>}
+                )}) : <p className="text-gray-600">Nenhum item encontrado.</p>}
               </div>
               <div className="mt-4 pt-4 border-t">
                 <h3 className="font-medium mb-2">Endereço de Entrega</h3>
