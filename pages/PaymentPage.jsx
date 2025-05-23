@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { useOrder } from '../context/OrderContext';
 
-const API_URL = 'http://localhost:5000/api';
 
 export default function PaymentPage() {
   const { state, dispatch } = useApp();
@@ -93,6 +92,15 @@ export default function PaymentPage() {
     setError('');
   };
 
+  // Função utilitária para garantir URL absoluta da imagem
+  const getImageUrl = (imgPath) => {
+    if (!imgPath) return '';
+    if (imgPath.startsWith('http')) return imgPath;
+    // Remove '/src' se existir e garante que começa com '/assets'
+    const cleanPath = imgPath.replace('/src', '');
+    return `https://e-commerce-wiesner-frontend.vercel.app${cleanPath}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -122,7 +130,7 @@ export default function PaymentPage() {
           name: item.name,
           quantity: item.quantity,
           price: parseFloat(item.price),
-          image: item.image
+          image: getImageUrl(item.image)
         })),
         shippingAddress: {
           address: formData.address,
@@ -189,7 +197,7 @@ export default function PaymentPage() {
           name: item.name,
           quantity: item.quantity,
           price: parseFloat(item.price),
-          image: item.image
+          image: getImageUrl(item.image)
         })),
         shippingAddress: {
           address: formData.address,
