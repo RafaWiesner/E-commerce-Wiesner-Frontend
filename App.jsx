@@ -19,8 +19,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
-    <AppProvider>
-      <OrderProvider>
         <div className="flex flex-col min-h-screen">
           <Header />
           <Routes>
@@ -37,8 +35,6 @@ const App = () => {
           <AboutUs/>
           <Footer />
         </div>
-      </OrderProvider>
-    </AppProvider>
   );
 };
 
