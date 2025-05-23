@@ -218,7 +218,54 @@ const Header = () => {
           </div>
 
           {isMenuOpen && (
-            <div className="md:hidden bg-white shadow-md">
+            <div className="absolute left-0 right-0 top-full bg-white shadow-md z-40 overflow-y-auto">
+              <div className="border-b px-4 pt-4 pb-2">
+                {user ? (
+                  <div>
+                    <button
+                      className="flex items-center w-full justify-between text-gray-800 font-semibold focus:outline-none"
+                      onClick={() => setIsUserMenuOpen((open) => !open)}
+                    >
+                      <span>Olá, {user.firstName}</span>
+                      <span className={`ml-2 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`}>▼</span>
+                    </button>
+                    {isUserMenuOpen && (
+                      <div className="mt-2 bg-white rounded shadow border">
+                        <button
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setIsUserMenuOpen(false);
+                            navigate('/perfil');
+                          }}
+                          className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+                        >
+                          Meu Perfil
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setIsUserMenuOpen(false);
+                            handleLogout();
+                          }}
+                          className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+                        >
+                          Sair
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      navigate('/login');
+                    }}
+                    className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  >
+                    Entrar
+                  </button>
+                )}
+              </div>
               <nav className="flex flex-col p-4 space-y-2 text-gray-800 text-base">
                 <button
                   className="flex justify-between items-center hover:text-blue-600"
