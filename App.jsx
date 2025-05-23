@@ -14,6 +14,9 @@ import { AppProvider } from './context/AppContext';
 import { OrderProvider } from './context/OrderContext';
 import SuccessPage from './pages/SuccessPage';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => {
   return (
     <AppProvider>
@@ -30,6 +33,7 @@ const App = () => {
             <Route path="/perfil" element={<Profile />} />
             <Route path="/sucesso" element={<SuccessPage />} />
           </Routes>
+          <ToastContainer position="top-right" autoClose={2000} />
           <AboutUs/>
           <Footer />
         </div>

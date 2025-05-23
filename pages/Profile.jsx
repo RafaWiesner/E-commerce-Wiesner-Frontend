@@ -15,7 +15,6 @@ const Profile = () => {
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
     email: user?.email || '',
-    phone: user?.phone || '',
   });
 
   const [addresses, setAddresses] = useState([
@@ -95,15 +94,6 @@ const Profile = () => {
               <span>Dados Pessoais</span>
             </button>
             <button
-              onClick={() => setActiveTab('enderecos')}
-              className={`w-full flex items-center space-x-2 p-2 rounded ${
-                activeTab === 'enderecos' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
-              }`}
-            >
-              <FaMapMarkerAlt />
-              <span>Endereços</span>
-            </button>
-            <button
               onClick={() => setActiveTab('pedidos')}
               className={`w-full flex items-center space-x-2 p-2 rounded ${
                 activeTab === 'pedidos' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
@@ -136,141 +126,23 @@ const Profile = () => {
             <div>
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-semibold">Dados Pessoais</h2>
-                <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
-                >
-                  <FaEdit />
-                  <span>{isEditing ? 'Cancelar' : 'Editar'}</span>
-                </button>
-              </div>
-
-              {isEditing ? (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Nome</label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Sobrenome</label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Telefone</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div className="flex justify-end space-x-4">
-                    <button
-                      onClick={() => setIsEditing(false)}
-                      className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      onClick={handleSaveProfile}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                    >
-                      Salvar
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm text-gray-500">Nome</p>
-                      <p className="font-medium">{formData.firstName}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Sobrenome</p>
-                      <p className="font-medium">{formData.lastName}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <p className="font-medium">{formData.email}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Telefone</p>
-                    <p className="font-medium">{formData.phone}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {activeTab === 'enderecos' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold">Meus Endereços</h2>
-                <button
-                  onClick={handleAddAddress}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                  Adicionar Endereço
-                </button>
               </div>
 
               <div className="space-y-4">
-                {addresses.map((address) => (
-                  <div key={address.id} className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="font-medium">
-                          {address.street}, {address.number}
-                          {address.complement && ` - ${address.complement}`}
-                        </p>
-                        <p className="text-gray-600">
-                          {address.neighborhood}, {address.city} - {address.state}
-                        </p>
-                        <p className="text-gray-600">CEP: {address.zipCode}</p>
-                      </div>
-                      <div className="flex space-x-2">
-                        {!address.isDefault && (
-                          <button
-                            onClick={() => handleSetDefaultAddress(address.id)}
-                            className="text-blue-600 hover:text-blue-800"
-                          >
-                            Definir como padrão
-                          </button>
-                        )}
-                        {address.isDefault && (
-                          <span className="text-green-600">Endereço padrão</span>
-                        )}
-                      </div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Nome</p>
+                    <p className="font-medium">{formData.firstName}</p>
                   </div>
-                ))}
+                  <div>
+                    <p className="text-sm text-gray-500">Sobrenome</p>
+                    <p className="font-medium">{formData.lastName}</p>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Email</p>
+                  <p className="font-medium">{formData.email}</p>
+                </div>
               </div>
             </div>
           )}

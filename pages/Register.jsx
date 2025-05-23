@@ -15,6 +15,7 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -27,9 +28,11 @@ const Register = () => {
     e.preventDefault();
     setError('');
     setSuccess(false);
+    setIsLoading(true);
 
     if (formData.password !== formData.confirmPassword) {
       setError('As senhas não coincidem');
+      setIsLoading(false);
       return;
     }
 
@@ -58,8 +61,10 @@ const Register = () => {
       
       // Redirecionar para a página inicial
       navigate('/');
+      setIsLoading(false);
     } catch (err) {
       setError(err.response?.data?.message || 'Erro ao realizar cadastro');
+      setIsLoading(false);
     }
   };
 
@@ -149,8 +154,9 @@ const Register = () => {
           <button
             type="submit"
             className="w-full bg-gray-800 text-white py-2 rounded hover:bg-gray-700 transition-colors"
+            disabled={isLoading}
           >
-            Cadastrar
+            {isLoading ? 'Cadastrando...' : 'Cadastrar'}
           </button>
         </form>
 

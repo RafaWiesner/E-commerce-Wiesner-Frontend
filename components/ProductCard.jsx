@@ -1,11 +1,17 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ProductCard = ({ product, addToCart }) => {
   const navigate = useNavigate();
 
   const handleDetails = () => {
     navigate(`/product/${product.id}`);
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast.success('Produto adicionado ao carrinho!');
   };
 
   return (
@@ -37,7 +43,7 @@ const ProductCard = ({ product, addToCart }) => {
             Detalhes
           </button>
           <button
-            onClick={() => addToCart(product)}
+            onClick={handleAddToCart}
             className="bg-gray-800 text-white border border-gray-800 py-1 px-4 rounded hover:opacity-80 transition duration-300"
           >
             Comprar

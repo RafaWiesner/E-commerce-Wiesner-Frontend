@@ -6,16 +6,18 @@ const Cart = () => {
   const { state, dispatch } = useApp();
   const { cart } = state;
 
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 1) {
-      dispatch({ type: 'REMOVE_FROM_CART', payload: productId });
-      return;
-    }
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { id: productId, quantity: newQuantity } });
+  const handleIncrement = (id, quantity) => {
+    dispatch({ type: 'UPDATE_QUANTITY', payload: { productId: id, quantity: quantity + 1 } });
   };
 
-  const removeFromCart = (productId) => {
-    dispatch({ type: 'REMOVE_FROM_CART', payload: productId });
+  const handleDecrement = (id, quantity) => {
+    if (quantity > 1) {
+      dispatch({ type: 'UPDATE_QUANTITY', payload: { productId: id, quantity: quantity - 1 } });
+    }
+  };
+
+  const handleRemove = (id) => {
+    dispatch({ type: 'REMOVE_FROM_CART', payload: id });
   };
 
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -51,14 +53,14 @@ const Cart = () => {
               {/* Controles de quantidade e botão de remover */}
               <div className="max-w-[100px] flex items-center -ml-1">
                 <button
-                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                  onClick={() => handleDecrement(item.id, item.quantity)}
                   className="px-1 py-1 rounded-l"
                 >
                   <FiMinus />
                 </button>
                 <span className="px-2 text-gray-800">{item.quantity}</span>
                 <button
-                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  onClick={() => handleIncrement(item.id, item.quantity)}
                   className="px-1 py-1 rounded-r"
                 >
                   <FiPlus />

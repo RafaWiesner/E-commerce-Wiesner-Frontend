@@ -7,6 +7,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { dispatch } = useApp();
@@ -14,9 +15,11 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
 
     if (!email || !password) {
       setError('Por favor, preencha todos os campos');
+      setIsLoading(false);
       return;
     }
 
@@ -62,6 +65,8 @@ export default function Login() {
         });
       }
       setError(err.response?.data?.message || 'Erro ao fazer login');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,8 +109,9 @@ export default function Login() {
           <button
             type="submit"
             className="w-full bg-gray-800 text-white py-2 rounded hover:bg-gray-700 transition-colors"
+            disabled={isLoading}
           >
-            Entrar
+            {isLoading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
         <p className="mt-4 text-center text-gray-600">
@@ -115,15 +121,6 @@ export default function Login() {
             className="text-gray-800 hover:underline"
           >
             Cadastre-se
-          </button>
-        </p>
-        <p className="mt-2 text-center text-gray-600">
-          Esqueceu sua senha?{' '}
-          <button
-            onClick={() => navigate('/reset-password')}
-            className="text-gray-800 hover:underline"
-          >
-            Resetar senha
           </button>
         </p>
       </div>
