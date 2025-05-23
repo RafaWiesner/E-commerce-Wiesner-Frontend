@@ -37,7 +37,7 @@ const ProductCard = ({ product, addToCart }) => {
         {/* Botões */}
         <div className="flex justify-between items-center mt-3">
           <button
-            onClick={handleDetails}
+            // onClick={handleDetails}
             className="bg-gray-100 border border-gray-300 text-gray-700 py-1 px-4 rounded hover:bg-gray-300 transition duration-300"
           >
             Detalhes
