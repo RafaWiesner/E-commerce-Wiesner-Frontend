@@ -13,6 +13,8 @@ const Cart = () => {
   const handleDecrement = (id, quantity) => {
     if (quantity > 1) {
       dispatch({ type: 'UPDATE_QUANTITY', payload: { productId: id, quantity: quantity - 1 } });
+    } else {
+      dispatch({ type: 'REMOVE_FROM_CART', payload: id });
     }
   };
 
